@@ -20,39 +20,46 @@
                     <p class="subtitle"><strong>6 actions</strong> need your attention today</p>
                     <p class="subtext">Prioritised by urgency, due time, and required action</p>
                 </div>
-                <div class="header-right">
-                    <div class="app-icons">
-                        <div class="app-icon-btn active" title="Inbox">
-                            <img src="Icons/inbox.png" alt="Inbox" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Gmail">
-                            <img src="Icons/gmail.png" alt="Gmail" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Slack">
-                            <img src="Icons/slack.png" alt="Slack" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Google Drive">
-                            <img src="Icons/google_drive.png" alt="Google Drive" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Google Calendar">
-                            <img src="Icons/google_calendar.png" alt="Google Calendar" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Notion">
-                            <img src="Icons/Notion.png" alt="Notion" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Xero">
-                            <img src="Icons/Xero.png" alt="Xero" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Add connection">
-                            <img src="Icons/plus.png" alt="Add" width="32" height="32">
-                        </div>
-                    </div>
-                </div>
             </header>
 
+            <!-- Filters -->
+            <div class="filters-section">
+                <span class="filters-label">Filter by:</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" onclick="filterTasks('all')">
+                        <span class="filter-text">All</span>
+                        <span class="filter-count">6</span>
+                    </button>
+                    <button class="filter-btn" data-filter="gmail" onclick="filterTasks('gmail')">
+                        <img src="Icons/gmail.png" alt="Gmail" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="xero" onclick="filterTasks('xero')">
+                        <img src="Icons/Xero.png" alt="Xero" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="calendar" onclick="filterTasks('calendar')">
+                        <img src="Icons/google_calendar.png" alt="Calendar" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="drive" onclick="filterTasks('drive')">
+                        <img src="Icons/google_drive.png" alt="Drive" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="slack" onclick="filterTasks('slack')">
+                        <img src="Icons/slack.png" alt="Slack" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="notion" onclick="filterTasks('notion')">
+                        <img src="Icons/Notion.png" alt="Notion" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Task List -->
-            <div class="task-list">
-                <div class="task-item clickable urgent" onclick="goToScreen2()" style="--stagger-delay: 0;">
+            <div class="task-list" id="task-list">
+                <div class="task-item clickable urgent" data-app="gmail" onclick="goToTaskDetail('gmail')" style="--stagger-delay: 0;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -73,7 +80,7 @@
                     </div>
                 </div>
 
-                <div class="task-item high" style="--stagger-delay: 1;">
+                <div class="task-item clickable high" data-app="xero" onclick="goToTaskDetail('xero')" style="--stagger-delay: 1;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -94,7 +101,7 @@
                     </div>
                 </div>
 
-                <div class="task-item medium" style="--stagger-delay: 2;">
+                <div class="task-item clickable medium" data-app="calendar" onclick="goToTaskDetail('calendar')" style="--stagger-delay: 2;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -115,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="task-item low" style="--stagger-delay: 3;">
+                <div class="task-item clickable low" data-app="drive" onclick="goToTaskDetail('drive')" style="--stagger-delay: 3;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -136,7 +143,7 @@
                     </div>
                 </div>
 
-                <div class="task-item lower" style="--stagger-delay: 4;">
+                <div class="task-item clickable lower" data-app="slack" onclick="goToTaskDetail('slack')" style="--stagger-delay: 4;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -157,7 +164,7 @@
                     </div>
                 </div>
 
-                <div class="task-item lowest" style="--stagger-delay: 5;">
+                <div class="task-item clickable lowest" data-app="notion" onclick="goToTaskDetail('notion')" style="--stagger-delay: 5;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -181,11 +188,12 @@
         </div>
     </div>
 
-    <!-- Screen 2: Task Detail -->
-    <div id="screen-2" class="screen">
+    <!-- TASK DETAIL SCREENS -->
+
+    <!-- Detail: Gmail Task -->
+    <div id="detail-gmail" class="screen detail-screen">
         <div class="container">
             <div class="detail-card">
-                <!-- Back Button -->
                 <button class="back-btn" onclick="goToScreen1()">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -193,7 +201,6 @@
                     Back
                 </button>
 
-                <!-- Task Header -->
                 <div class="detail-header">
                     <div class="detail-task-bar">
                         <div class="due-badge">
@@ -208,7 +215,6 @@
                     </div>
                 </div>
 
-                <!-- Email Context -->
                 <div class="email-section">
                     <p class="context-label">Context from your work email account</p>
                     <div class="email-card">
@@ -225,7 +231,6 @@
                     </div>
                 </div>
 
-                <!-- Action Section -->
                 <div class="action-section">
                     <h3 class="action-heading">We found the document <span class="highlight">Alex</span> needs.</h3>
                     <p class="action-subheading">You can share access <span class="highlight">now</span>, or come back to this <span class="highlight">later</span>.</p>
@@ -238,7 +243,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="shareAccess()">
+                        <button class="btn btn-primary" onclick="completeTask('gmail')">
                             <span class="btn-text">Share access</span>
                             <span class="btn-spinner hidden"></span>
                         </button>
@@ -251,7 +256,393 @@
         </div>
     </div>
 
-    <!-- Screen 3: Dashboard with Toast -->
+    <!-- Detail: Xero Task -->
+    <div id="detail-xero" class="screen detail-screen">
+        <div class="container">
+            <div class="detail-card">
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="detail-header">
+                    <div class="detail-task-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">12:00pm</span>
+                        </div>
+                        <h2 class="detail-task-title">Approve supplier invoice</h2>
+                        <span class="detail-task-source">From <span class="source-link">Finance Team</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/Xero.png" alt="Xero" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-section">
+                    <p class="context-label">Context from Xero</p>
+                    <div class="email-card">
+                        <div class="invoice-summary">
+                            <div class="invoice-row">
+                                <span class="invoice-label">Vendor:</span>
+                                <span class="invoice-value">TechSupplies Co.</span>
+                            </div>
+                            <div class="invoice-row">
+                                <span class="invoice-label">Invoice #:</span>
+                                <span class="invoice-value">INV-2024-0847</span>
+                            </div>
+                            <div class="invoice-row">
+                                <span class="invoice-label">Amount:</span>
+                                <span class="invoice-value amount">$4,250.00 AUD</span>
+                            </div>
+                            <div class="invoice-row">
+                                <span class="invoice-label">Due Date:</span>
+                                <span class="invoice-value">14 March 2024</span>
+                            </div>
+                        </div>
+                        <div class="invoice-description">
+                            <p><strong>Description:</strong> Office equipment purchase — 5x monitors, 3x ergonomic chairs, 2x standing desks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <h3 class="action-heading">This invoice is ready for <span class="highlight">approval</span>.</h3>
+                    <p class="action-subheading">The Finance Team has verified all documentation. Approve <span class="highlight">now</span> to ensure timely payment.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">Purchase Order #PO-2024-0156</p>
+                        <p class="doc-location">Matched and verified in <span class="source-link">Xero</span></p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="completeTask('xero')">
+                            <span class="btn-text">Approve invoice</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Request more info</button>
+                        <a href="#" class="link-btn">View in Xero</a>
+                    </div>
+                    <p class="action-note">Payment will be processed within 2 business days.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail: Calendar Task -->
+    <div id="detail-calendar" class="screen detail-screen">
+        <div class="container">
+            <div class="detail-card">
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="detail-header">
+                    <div class="detail-task-bar medium-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">1:00pm</span>
+                        </div>
+                        <h2 class="detail-task-title">Confirm meeting room booking</h2>
+                        <span class="detail-task-source">From <span class="source-link">Sarah (HR)</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/google_calendar.png" alt="Calendar" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-section">
+                    <p class="context-label">Meeting request details</p>
+                    <div class="email-card">
+                        <div class="meeting-details">
+                            <div class="meeting-row">
+                                <span class="meeting-icon">📅</span>
+                                <div class="meeting-info">
+                                    <p class="meeting-label">Date</p>
+                                    <p class="meeting-value">Thursday, 14 March 2024</p>
+                                </div>
+                            </div>
+                            <div class="meeting-row">
+                                <span class="meeting-icon">🕐</span>
+                                <div class="meeting-info">
+                                    <p class="meeting-label">Time</p>
+                                    <p class="meeting-value">2:00 PM – 3:30 PM (AEDT)</p>
+                                </div>
+                            </div>
+                            <div class="meeting-row">
+                                <span class="meeting-icon">👥</span>
+                                <div class="meeting-info">
+                                    <p class="meeting-label">Attendees</p>
+                                    <p class="meeting-value">Sarah (HR), You, + 4 others</p>
+                                </div>
+                            </div>
+                            <div class="meeting-row">
+                                <span class="meeting-icon">📍</span>
+                                <div class="meeting-info">
+                                    <p class="meeting-label">Room</p>
+                                    <p class="meeting-value">Conference Room B (Level 3)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="meeting-topic">
+                            <p><strong>Topic:</strong> Q1 Performance Reviews & Team Planning</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <h3 class="action-heading"><span class="highlight">Sarah</span> is waiting for your confirmation.</h3>
+                    <p class="action-subheading">The room is available. Confirm <span class="highlight">now</span> to secure your spot.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">Room B — Capacity: 8 people</p>
+                        <p class="doc-location">Includes: TV screen, video conferencing, whiteboard</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="completeTask('calendar')">
+                            <span class="btn-text">Confirm booking</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Suggest new time</button>
+                        <a href="#" class="link-btn">Decline</a>
+                    </div>
+                    <p class="action-note">Calendar invites will be sent to all attendees.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail: Drive Task -->
+    <div id="detail-drive" class="screen detail-screen">
+        <div class="container">
+            <div class="detail-card">
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="detail-header">
+                    <div class="detail-task-bar low-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">2:00pm</span>
+                        </div>
+                        <h2 class="detail-task-title">Review draft onboarding document</h2>
+                        <span class="detail-task-source">From <span class="source-link">People Ops</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/google_drive.png" alt="Drive" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-section">
+                    <p class="context-label">Document details</p>
+                    <div class="email-card">
+                        <div class="doc-preview">
+                            <div class="doc-icon-large">
+                                <img src="Icons/google_drive.png" alt="Doc" width="48" height="48">
+                            </div>
+                            <div class="doc-meta">
+                                <p class="doc-name-large">New Hire Onboarding Guide — Q1 2024</p>
+                                <p class="doc-stats">Google Docs • Last edited 2 hours ago • 12 pages</p>
+                            </div>
+                        </div>
+                        <div class="doc-description">
+                            <p><strong>Review requested by:</strong> Jessica from People Ops</p>
+                            <p style="margin-top: 12px;"><strong>Your feedback needed on:</strong></p>
+                            <ul class="feedback-list">
+                                <li>Section 3: Remote work policies</li>
+                                <li>Section 5: Benefits enrollment process</li>
+                                <li>Section 8: IT setup checklist</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <h3 class="action-heading">Your feedback will help <span class="highlight">improve</span> the onboarding experience.</h3>
+                    <p class="action-subheading">Review the document <span class="highlight">now</span> or add comments directly in Google Docs.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">2 comments awaiting your response</p>
+                        <p class="doc-location">From Jessica and Mark (People Ops)</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="completeTask('drive')">
+                            <span class="btn-text">Mark as reviewed</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Open in Google Docs</button>
+                        <a href="#" class="link-btn">Request extension</a>
+                    </div>
+                    <p class="action-note">Jessica will be notified when you complete your review.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail: Slack Task -->
+    <div id="detail-slack" class="screen detail-screen">
+        <div class="container">
+            <div class="detail-card">
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="detail-header">
+                    <div class="detail-task-bar lower-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">3:00pm</span>
+                        </div>
+                        <h2 class="detail-task-title">Reply to IT access request</h2>
+                        <span class="detail-task-source">From <span class="source-link">Sam (IT)</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/slack.png" alt="Slack" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-section">
+                    <p class="context-label">Slack message from #it-support</p>
+                    <div class="email-card slack-card">
+                        <div class="slack-message">
+                            <div class="slack-header">
+                                <img src="Icons/slack.png" alt="Sam" width="36" height="36" class="slack-avatar">
+                                <div class="slack-user">
+                                    <p class="slack-name">Sam (IT)</p>
+                                    <p class="slack-time">Today at 9:42 AM</p>
+                                </div>
+                            </div>
+                            <div class="slack-body">
+                                <p>Hi Melissa 👋</p>
+                                <p>Quick question — <strong>Emily from Marketing</strong> needs access to the following tools for her new campaign:</p>
+                                <ul class="slack-list">
+                                    <li>Figma (Design team plan)</li>
+                                    <li>Adobe Creative Suite</li>
+                                    <li>Social media management dashboard</li>
+                                </ul>
+                                <p>Are you able to approve these? Her start date is Monday.</p>
+                                <p>Let me know! 🙏</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <h3 class="action-heading"><span class="highlight">Emily</span> needs these tools before Monday.</h3>
+                    <p class="action-subheading">Approve the access request <span class="highlight">now</span> and Sam will provision the accounts.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">Estimated monthly cost: $89</p>
+                        <p class="doc-location">Within approved Q1 IT budget</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="completeTask('slack')">
+                            <span class="btn-text">Approve access</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Reply in Slack</button>
+                        <a href="#" class="link-btn">Request more info</a>
+                    </div>
+                    <p class="action-note">Sam will provision access and notify Emily directly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail: Notion Task -->
+    <div id="detail-notion" class="screen detail-screen">
+        <div class="container">
+            <div class="detail-card">
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="detail-header">
+                    <div class="detail-task-bar lowest-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">5:00pm</span>
+                        </div>
+                        <h2 class="detail-task-title">Update project roadmap</h2>
+                        <span class="detail-task-source">From <span class="source-link">Product Team</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/Notion.png" alt="Notion" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="email-section">
+                    <p class="context-label">Notion page to update</p>
+                    <div class="email-card">
+                        <div class="doc-preview">
+                            <div class="doc-icon-large">
+                                <img src="Icons/Notion.png" alt="Notion" width="48" height="48">
+                            </div>
+                            <div class="doc-meta">
+                                <p class="doc-name-large">Product Roadmap 2024</p>
+                                <p class="doc-stats">Notion • Last updated yesterday • 24 pages</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-sections">
+                            <p style="margin-bottom: 12px;"><strong>Sections flagged for update:</strong></p>
+                            <div class="roadmap-item">
+                                <span class="roadmap-status completed">✓</span>
+                                <span>Q1 Deliverables — <em>Update to "Shipped"</em></span>
+                            </div>
+                            <div class="roadmap-item">
+                                <span class="roadmap-status in-progress">⟳</span>
+                                <span>Q2 Priorities — <em>Add new mobile app feature</em></span>
+                            </div>
+                            <div class="roadmap-item">
+                                <span class="roadmap-status pending">○</span>
+                                <span>Resource allocation — <em>Confirm team assignments</em></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <h3 class="action-heading">The team is waiting for the <span class="highlight">updated roadmap</span>.</h3>
+                    <p class="action-subheading">Make your changes <span class="highlight">now</span> or collaborate with the Product Team.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">3 pending edits from team members</p>
+                        <p class="doc-location">Page is locked until you review</p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="completeTask('notion')">
+                            <span class="btn-text">Mark updated</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Open in Notion</button>
+                        <a href="#" class="link-btn">Assign to teammate</a>
+                    </div>
+                    <p class="action-note">The Product Team will be notified of your updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 3: Dashboard with Toast (After completion) -->
     <div id="screen-3" class="screen">
         <div class="container">
             <!-- Header -->
@@ -261,39 +652,42 @@
                     <p class="subtitle"><strong>5 actions</strong> need your attention today</p>
                     <p class="subtext">Prioritised by urgency, due time, and required action</p>
                 </div>
-                <div class="header-right">
-                    <div class="app-icons">
-                        <div class="app-icon-btn active" title="Inbox">
-                            <img src="Icons/inbox.png" alt="Inbox" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Gmail">
-                            <img src="Icons/gmail.png" alt="Gmail" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Slack">
-                            <img src="Icons/slack.png" alt="Slack" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Google Drive">
-                            <img src="Icons/google_drive.png" alt="Google Drive" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Google Calendar">
-                            <img src="Icons/google_calendar.png" alt="Google Calendar" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Notion">
-                            <img src="Icons/Notion.png" alt="Notion" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Xero">
-                            <img src="Icons/Xero.png" alt="Xero" width="32" height="32">
-                        </div>
-                        <div class="app-icon-btn" title="Add connection">
-                            <img src="Icons/plus.png" alt="Add" width="32" height="32">
-                        </div>
-                    </div>
-                </div>
             </header>
 
-            <!-- Task List (5 items) -->
-            <div class="task-list">
-                <div class="task-item high" style="--stagger-delay: 0;">
+            <!-- Filters -->
+            <div class="filters-section">
+                <span class="filters-label">Filter by:</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" onclick="filterTasks('all')">
+                        <span class="filter-text">All</span>
+                        <span class="filter-count">5</span>
+                    </button>
+                    <button class="filter-btn" data-filter="xero" onclick="filterTasks('xero')">
+                        <img src="Icons/Xero.png" alt="Xero" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="calendar" onclick="filterTasks('calendar')">
+                        <img src="Icons/google_calendar.png" alt="Calendar" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="drive" onclick="filterTasks('drive')">
+                        <img src="Icons/google_drive.png" alt="Drive" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="slack" onclick="filterTasks('slack')">
+                        <img src="Icons/slack.png" alt="Slack" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                    <button class="filter-btn" data-filter="notion" onclick="filterTasks('notion')">
+                        <img src="Icons/Notion.png" alt="Notion" width="18" height="18">
+                        <span class="filter-count">1</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Task List (5 items - Gmail task removed) -->
+            <div class="task-list" id="task-list-completed">
+                <div class="task-item clickable high" data-app="xero" onclick="goToTaskDetail('xero')" style="--stagger-delay: 0;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -314,7 +708,7 @@
                     </div>
                 </div>
 
-                <div class="task-item medium" style="--stagger-delay: 1;">
+                <div class="task-item clickable medium" data-app="calendar" onclick="goToTaskDetail('calendar')" style="--stagger-delay: 1;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -335,7 +729,7 @@
                     </div>
                 </div>
 
-                <div class="task-item low" style="--stagger-delay: 2;">
+                <div class="task-item clickable low" data-app="drive" onclick="goToTaskDetail('drive')" style="--stagger-delay: 2;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -356,7 +750,7 @@
                     </div>
                 </div>
 
-                <div class="task-item lower" style="--stagger-delay: 3;">
+                <div class="task-item clickable lower" data-app="slack" onclick="goToTaskDetail('slack')" style="--stagger-delay: 3;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -377,7 +771,7 @@
                     </div>
                 </div>
 
-                <div class="task-item lowest" style="--stagger-delay: 4;">
+                <div class="task-item clickable lowest" data-app="notion" onclick="goToTaskDetail('notion')" style="--stagger-delay: 4;">
                     <div class="task-left">
                         <div class="due-time">
                             <span class="due-label">Due by:</span>
@@ -409,8 +803,8 @@
                 </svg>
             </div>
             <div class="toast-content">
-                <p class="toast-title">Access shared</p>
-                <p class="toast-message"><span class="highlight">Alex</span> can now view Latest Timesheet — March 2024</p>
+                <p class="toast-title" id="toast-title">Access shared</p>
+                <p class="toast-message" id="toast-message"><span class="highlight">Alex</span> can now view Latest Timesheet — March 2024</p>
             </div>
         </div>
     </div>

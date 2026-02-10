@@ -1,68 +1,43 @@
 # Morning Melissa - Clickable Prototype
 
-A polished, interactive desktop prototype for the B2B productivity dashboard "Morning Melissa".
+A polished, interactive desktop prototype for the B2B productivity dashboard "Morning Melissa" with filtering and multiple task detail views.
 
 ## Files
 
-- `index.html` - Main HTML with all three screens and real app icons
-- `styles.css` - Polished styles with micro-interactions and animations
-- `app.js` - Enhanced navigation with smooth transitions
+- `index.html` - Main HTML with dashboard, 6 task detail screens, and completion state
+- `styles.css` - Polished styles with filters, micro-interactions, and animations
+- `app.js` - Enhanced navigation, filtering logic, and task completion flow
 - `Icons/` - Folder containing app icon PNGs
 
-## Changes Made
+## New Features
 
-### 1. Real App Icons (from `/Icons` folder)
-- **Connections row**: inbox, gmail, slack, google_drive, google_calendar, Notion, Xero, plus
-- **Task list icons**:
-  - Share access → Gmail
-  - Approve supplier invoice → Xero
-  - Confirm meeting room booking → Google Calendar
-  - Review onboarding doc → Google Drive
-  - Reply to IT request → Slack
-  - Update roadmap → Notion
+### 1. Filter Bar
+Located below the header, click to filter tasks by app:
+- **All** - Shows all tasks (6 or 5 after completion)
+- **App icons** - Filter to show only Gmail, Xero, Calendar, Drive, Slack, or Notion tasks
+- Active filter highlighted with dark background
+- Task counts shown on each filter button
 
-### 2. Micro-interactions & Animations
+### 2. All Tasks Are Now Clickable
+Each task opens its own detail view with relevant content:
 
-**App Icon Buttons (44x44px clickable area):**
-- Default: subtle border, white background
-- Selected: stronger border + light fill
-- Hover: translateY(-1px) + subtle shadow
-- Press: translateY(0) + scale(0.98)
+| Task | App | Detail View Content |
+|------|-----|---------------------|
+| Share access to timesheet | Gmail | Email from Alex Chen, document found in Drive |
+| Approve supplier invoice | Xero | Invoice summary ($4,250), vendor details |
+| Confirm meeting room | Calendar | Meeting details (date, time, room, attendees) |
+| Review onboarding doc | Drive | Google Doc preview, sections needing feedback |
+| Reply to IT request | Slack | Slack message from Sam, tool access request |
+| Update roadmap | Notion | Notion page preview, flagged sections |
 
-**List Screen:**
-- Page load: container fades in + moves up (180ms)
-- Each row staggers in (40ms delay between rows)
-- Row hover: background tint + title turns blue + chevron slides right
-- Clickable rows show chevron indicator
-
-**Screen Transitions:**
-- Crossfade + slide animation (200-260ms)
-- Forward/backward direction detection
-- Smooth opacity and transform transitions
-
-**Primary Button:**
-- Hover: lift + colored shadow
-- Active: press down
-- Loading: spinner + "Sharing..." text + pulse animation
-
-**Toast:**
-- Slides up + scales in with spring-like easing
-- Success icon (checkmark) added
-- Auto-dismiss after 4 seconds
-- Enhanced shadow for depth
-
-### 3. UI Polish Improvements
-
-- **Max width**: 920px for better large-screen appearance
-- **Spacing**: 28px header-to-list, consistent 16px row padding
-- **Fixed width**: "Due by" column (72px) for aligned titles
-- **Typography hierarchy**:
-  - Title: 32px bold
-  - Subtitle: 16px regular with semibold number
-  - Task title: 15px semibold
-  - Meta: 13px muted
-- **Chevrons**: Added to all task rows for affordance
-- **Borders**: Subtle borders on cards and list for definition
+### 3. Task-Specific Actions & Toasts
+Each task has unique primary action and success toast:
+- **Gmail**: "Share access" → "Alex can now view Latest Timesheet"
+- **Xero**: "Approve invoice" → "Payment of $4,250.00 is scheduled"
+- **Calendar**: "Confirm booking" → "Conference Room B is reserved"
+- **Drive**: "Mark as reviewed" → "Jessica has been notified"
+- **Slack**: "Approve access" → "Emily will receive credentials Monday"
+- **Notion**: "Mark updated" → "Product Team has been notified"
 
 ## How to Run
 
@@ -85,28 +60,58 @@ cd "C:\Users\61431\morning-melissa-prototype"
 npx serve
 ```
 
-**VS Code:**
-- Install "Live Server" extension
-- Right-click `index.html` → "Open with Live Server"
-
 ## Prototype Flow
 
-1. **Screen 1 (Dashboard)**: 6 prioritized tasks with stagger animation
-   - Click **first task** "Share access to latest timesheet"
-   - Hover over rows to see interactions
+### Dashboard (Screen 1)
+- 6 prioritized tasks with stagger animation
+- **Filter bar** below header - click any app icon to filter
+- **Click any task row** to open its detail view
+- Chevron indicators show all rows are clickable
 
-2. **Screen 2 (Task Detail)**: Email context with action buttons
-   - Click **"Share access"** → shows loading spinner for 600ms
-   - Or click **"Back"** to return
+### Task Detail Screens (6 different screens)
+Each shows:
+- Back button to return to dashboard
+- Task header with app icon and priority bar
+- Context card (email, invoice, meeting details, etc.)
+- Action buttons (primary + secondary + link)
+- Relevant metadata and source information
 
-3. **Screen 3 (Dashboard + Toast)**: Updated to 5 tasks
-   - Success toast slides in from bottom-right
-   - Toast auto-dismisses after 4 seconds
+### Completion Flow
+- Click primary action button (e.g., "Approve invoice")
+- Loading state for 600ms with spinner
+- Navigate to **Screen 3** (5 tasks remaining)
+- **Success toast** slides in with task-specific message
+- Toast auto-dismisses after 4 seconds
 
 ## Keyboard Shortcuts
 
-- `Escape` - Go back from detail view
+- `Escape` - Go back from detail view to dashboard
+- `1-6` - Quick filter (1=All, 2=Gmail, 3=Xero, 4=Calendar, 5=Drive, 6=Slack, 7=Notion)
 - `Enter` - Activate focused task row
+
+## Design Details
+
+### Filter Buttons
+- Pill-shaped buttons with app icons
+- Active state: dark background, white text
+- Hover: subtle lift + background change
+- Shows task count badge
+
+### Task Detail Views
+Each detail screen is customized:
+- **Gmail**: Email card with sender, subject, body
+- **Xero**: Invoice summary with amount, vendor, PO number
+- **Calendar**: Meeting card with icons for date/time/attendees/room
+- **Drive**: Document preview with feedback checklist
+- **Slack**: Slack-style message card with avatar
+- **Notion**: Page preview with status indicators
+
+### Animations
+- Screen transitions: Crossfade + slide (200-260ms)
+- Filter changes: Tasks fade out/in with stagger
+- Row hover: Background tint + title color change
+- Button hover: Lift + shadow
+- Toast: Slide up + scale with spring easing
 
 ## Browser Compatibility
 
@@ -117,6 +122,7 @@ npx serve
 ## Notes
 
 - Desktop-first design (768px+ for optimal experience)
-- Icons are PNG files from the Icons folder
 - All animations use CSS transforms for 60fps performance
+- Icons are PNG files from the Icons folder
 - No backend - this is a presentation prototype
+- Filter state resets when returning from detail view (by design)

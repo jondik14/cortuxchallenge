@@ -1,11 +1,41 @@
 /**
  * Morning Melissa - Prototype App Logic
- * Enhanced with smooth animations and micro-interactions
+ * Enhanced with filters, multiple task details, and smooth interactions
  */
 
-// Track current screen for transition direction
+// Track current state
 let currentScreen = 'screen-1';
 let isTransitioning = false;
+let currentFilter = 'all';
+let completedTasks = [];
+
+// Toast messages for different tasks
+const toastMessages = {
+    gmail: {
+        title: 'Access shared',
+        message: '<span class="highlight">Alex</span> can now view Latest Timesheet — March 2024'
+    },
+    xero: {
+        title: 'Invoice approved',
+        message: 'Payment of <span class="highlight">$4,250.00</span> to TechSupplies Co. is scheduled'
+    },
+    calendar: {
+        title: 'Booking confirmed',
+        message: 'Conference Room B is reserved for <span class="highlight">Thursday 2:00 PM</span>'
+    },
+    drive: {
+        title: 'Review completed',
+        message: '<span class="highlight">Jessica</span> has been notified of your feedback'
+    },
+    slack: {
+        title: 'Access approved',
+        message: '<span class="highlight">Emily</span> will receive her login credentials Monday'
+    },
+    notion: {
+        title: 'Roadmap updated',
+        message: 'The <span class="highlight">Product Team</span> has been notified of your changes'
+    }
+};
 
 /**
  * Navigate to a screen with smooth transition
@@ -76,15 +106,19 @@ function showScreen(screenId) {
  * Determine if transition is forward or backward based on screen flow
  */
 function isForwardTransition(from, to) {
-    const order = ['screen-1', 'screen-2', 'screen-3'];
-    return order.indexOf(to) > order.indexOf(from);
+    // Dashboard -> Detail is forward, Detail -> Dashboard is backward
+    if (from === 'screen-1' && to.startsWith('detail-')) return true;
+    if (from.startsWith('detail-') && to === 'screen-1') return false;
+    if (from.startsWith('detail-') && to === 'screen-3') return true;
+    if (from === 'screen-1' && to === 'screen-3') return true;
+    return false;
 }
 
 /**
- * Navigate from Dashboard to Task Detail
+ * Navigate to specific task detail
  */
-function goToScreen2() {
-    showScreen('screen-2');
+function goToTaskDetail(taskType) {
+    showScreen(`detail-${taskType}`);
 }
 
 /**
@@ -95,16 +129,64 @@ function goToScreen1() {
 }
 
 /**
- * Share access action with loading state and success flow
+ * Filter tasks by app
  */
-function shareAccess() {
-    const btn = document.querySelector('#screen-2 .btn-primary');
+function filterTasks(filter) {
+    currentFilter = filter;
+    
+    // Update filter button states
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === filter) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Get the active task list
+    const taskList = document.querySelector('.screen.active .task-list');
+    if (!taskList) return;
+    
+    const tasks = taskList.querySelectorAll('.task-item');
+    let visibleCount = 0;
+    
+    tasks.forEach((task, index) => {
+        const taskApp = task.dataset.app;
+        
+        if (filter === 'all' || taskApp === filter) {
+            task.classList.remove('hidden');
+            // Re-trigger stagger animation
+            task.style.animation = 'none';
+            task.offsetHeight; // Trigger reflow
+            task.style.animation = `rowEnter 180ms ease forwards`;
+            task.style.animationDelay = `${visibleCount * 40}ms`;
+            task.style.setProperty('--stagger-delay', visibleCount);
+            visibleCount++;
+        } else {
+            task.classList.add('hidden');
+        }
+    });
+    
+    // Show empty state if no tasks match
+    if (visibleCount === 0) {
+        taskList.classList.add('filtered-empty');
+    } else {
+        taskList.classList.remove('filtered-empty');
+    }
+}
+
+/**
+ * Complete a task action with loading state
+ */
+function completeTask(taskType) {
+    const detailScreen = document.getElementById(`detail-${taskType}`);
+    const btn = detailScreen.querySelector('.btn-primary');
     const btnText = btn.querySelector('.btn-text');
     const btnSpinner = btn.querySelector('.btn-spinner');
+    const originalText = btnText.textContent;
     
     // Show loading state
     btn.disabled = true;
-    btnText.textContent = 'Sharing...';
+    btnText.textContent = getLoadingText(taskType);
     btnSpinner.classList.remove('hidden');
     
     // Add subtle pulse to button during loading
@@ -115,31 +197,78 @@ function shareAccess() {
         // Remove pulse animation
         btn.style.animation = '';
         
-        // Navigate to screen 3
+        // Mark task as completed
+        completedTasks.push(taskType);
+        
+        // Navigate to screen 3 (completed state)
         showScreen('screen-3');
         
-        // Show toast after screen transition starts
+        // Update filter counts on screen 3 (remove gmail)
+        updateFilterCounts();
+        
+        // Show toast with appropriate message
         setTimeout(() => {
-            showToast();
+            showTaskToast(taskType);
         }, 150);
         
         // Reset button state for next time (delayed)
         setTimeout(() => {
             btn.disabled = false;
-            btnText.textContent = 'Share access';
+            btnText.textContent = originalText;
             btnSpinner.classList.add('hidden');
         }, 500);
     }, 600);
 }
 
 /**
- * Toast notification with smooth animation
+ * Get loading text based on task type
+ */
+function getLoadingText(taskType) {
+    const texts = {
+        gmail: 'Sharing...',
+        xero: 'Approving...',
+        calendar: 'Confirming...',
+        drive: 'Saving...',
+        slack: 'Approving...',
+        notion: 'Updating...'
+    };
+    return texts[taskType] || 'Processing...';
+}
+
+/**
+ * Update filter counts after task completion
+ */
+function updateFilterCounts() {
+    // On screen 3, gmail count is 0 (task completed)
+    const gmailFilterBtn = document.querySelector('#screen-3 .filter-btn[data-filter="gmail"]');
+    if (gmailFilterBtn) {
+        gmailFilterBtn.style.display = 'none';
+    }
+    
+    // Update "All" count
+    const allFilterBtn = document.querySelector('#screen-3 .filter-btn[data-filter="all"]');
+    if (allFilterBtn) {
+        const count = allFilterBtn.querySelector('.filter-count');
+        if (count) count.textContent = '5';
+    }
+}
+
+/**
+ * Show task-specific toast notification
  */
 let toastTimeout;
 
-function showToast() {
+function showTaskToast(taskType) {
     const toast = document.getElementById('toast');
-    if (!toast) return;
+    const toastTitle = document.getElementById('toast-title');
+    const toastMessage = document.getElementById('toast-message');
+    
+    if (!toast || !toastMessages[taskType]) return;
+    
+    // Set appropriate message
+    const message = toastMessages[taskType];
+    toastTitle.textContent = message.title;
+    toastMessage.innerHTML = message.message;
     
     // Clear any existing timeout
     if (toastTimeout) {
@@ -153,6 +282,13 @@ function showToast() {
     toastTimeout = setTimeout(() => {
         hideToast();
     }, 4000);
+}
+
+/**
+ * Show generic toast (legacy support)
+ */
+function showToast() {
+    showTaskToast('gmail');
 }
 
 /**
@@ -176,20 +312,10 @@ style.textContent = `
 document.head.appendChild(style);
 
 /**
- * Initialize app icon button interactions
+ * Initialize app icon button interactions (removed - using filters instead)
  */
 function initAppIconButtons() {
-    const buttons = document.querySelectorAll('.app-icon-btn');
-    
-    buttons.forEach(btn => {
-        // Add ripple effect on click
-        btn.addEventListener('click', function(e) {
-            // Remove active class from siblings
-            buttons.forEach(b => b.classList.remove('active'));
-            // Add active to clicked
-            this.classList.add('active');
-        });
-    });
+    // App icon buttons removed from header - filters are used instead
 }
 
 /**
@@ -214,19 +340,31 @@ function initTaskRows() {
 }
 
 /**
+ * Initialize filter buttons
+ */
+function initFilters() {
+    // Filter buttons are initialized via onclick handlers
+    // This function can be extended for additional filter logic
+}
+
+/**
  * Keyboard navigation support
  */
 document.addEventListener('keydown', (e) => {
     // Escape key goes back
     if (e.key === 'Escape') {
-        if (currentScreen === 'screen-2') {
+        if (currentScreen.startsWith('detail-')) {
             goToScreen1();
         }
     }
     
-    // Enter key on focused clickable row
-    if (e.key === 'Enter' && document.activeElement?.classList.contains('task-item')) {
-        document.activeElement.click();
+    // Number keys 1-6 for quick filter
+    if (e.key >= '1' && e.key <= '7') {
+        const filters = ['all', 'gmail', 'xero', 'calendar', 'drive', 'slack', 'notion'];
+        const index = parseInt(e.key) - 1;
+        if (filters[index] && currentScreen === 'screen-1') {
+            filterTasks(filters[index]);
+        }
     }
 });
 
@@ -238,13 +376,14 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScreen = 'screen-1';
     
     // Initialize interactions
-    initAppIconButtons();
     initTaskRows();
+    initFilters();
     
     // Log ready state
     console.log('🌅 Morning Melissa Prototype loaded');
-    console.log('📱 Click the first task to begin the flow');
-    console.log('⌨️  Press Escape to go back');
+    console.log('📱 Click any task to view details');
+    console.log('🔍 Use filter bar below header to sort by app');
+    console.log('⌨️  Press 1-6 to quick filter, Escape to go back');
 });
 
 /**
