@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Melissa - Prototype</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Screen 1: Dashboard -->
+    <div id="screen-1" class="screen active">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="title">Morning Melissa</h1>
+                    <p class="subtitle"><strong>6 actions</strong> need your attention today</p>
+                    <p class="subtext">Prioritised by urgency, due time, and required action</p>
+                </div>
+                <div class="header-right">
+                    <div class="app-icons">
+                        <div class="app-icon-btn active" title="Inbox">
+                            <img src="Icons/inbox.png" alt="Inbox" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Gmail">
+                            <img src="Icons/gmail.png" alt="Gmail" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Slack">
+                            <img src="Icons/slack.png" alt="Slack" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Google Drive">
+                            <img src="Icons/google_drive.png" alt="Google Drive" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Google Calendar">
+                            <img src="Icons/google_calendar.png" alt="Google Calendar" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Notion">
+                            <img src="Icons/Notion.png" alt="Notion" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Xero">
+                            <img src="Icons/Xero.png" alt="Xero" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Add connection">
+                            <img src="Icons/plus.png" alt="Add" width="32" height="32">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Task List -->
+            <div class="task-list">
+                <div class="task-item clickable urgent" onclick="goToScreen2()" style="--stagger-delay: 0;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value urgent">11:00am</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Share access to latest timesheet</h3>
+                        <p class="task-source">For <span class="source-link">Alex Chen</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/gmail.png" alt="Gmail" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item high" style="--stagger-delay: 1;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">12:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Approve supplier invoice</h3>
+                        <p class="task-source">From <span class="source-link">Finance Team</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/Xero.png" alt="Xero" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item medium" style="--stagger-delay: 2;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">1:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Confirm meeting room booking</h3>
+                        <p class="task-source">From <span class="source-link">Sarah (HR)</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/google_calendar.png" alt="Google Calendar" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item low" style="--stagger-delay: 3;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">2:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Review draft onboarding document</h3>
+                        <p class="task-source">From <span class="source-link">People Ops</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/google_drive.png" alt="Google Drive" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item lower" style="--stagger-delay: 4;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">3:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Reply to IT access request</h3>
+                        <p class="task-source">From <span class="source-link">Sam (IT)</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/slack.png" alt="Slack" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item lowest" style="--stagger-delay: 5;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">5:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Update project roadmap</h3>
+                        <p class="task-source">From <span class="source-link">Product Team</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/Notion.png" alt="Notion" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 2: Task Detail -->
+    <div id="screen-2" class="screen">
+        <div class="container">
+            <div class="detail-card">
+                <!-- Back Button -->
+                <button class="back-btn" onclick="goToScreen1()">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                </button>
+
+                <!-- Task Header -->
+                <div class="detail-header">
+                    <div class="detail-task-bar">
+                        <div class="due-badge">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value urgent">11:00am</span>
+                        </div>
+                        <h2 class="detail-task-title">Share access to latest timesheet</h2>
+                        <span class="detail-task-source">For <span class="source-link">Alex Chen</span></span>
+                        <div class="detail-app-icon">
+                            <img src="Icons/gmail.png" alt="Gmail" width="24" height="24">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Context -->
+                <div class="email-section">
+                    <p class="context-label">Context from your work email account</p>
+                    <div class="email-card">
+                        <div class="email-header">
+                            <p><span class="email-label">From:</span> <span class="source-link">Alex Chen</span></p>
+                            <p><span class="email-label">Subject:</span> Access to latest timesheet</p>
+                        </div>
+                        <div class="email-body">
+                            <p>Hi Melissa,</p>
+                            <p>I'm trying to finalise payroll and <strong>don't currently have access to the latest timesheet.</strong></p>
+                            <p>Could you <strong>please share access</strong> when you get a chance?</p>
+                            <p class="email-signoff">Thanks,<br>Alex</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Section -->
+                <div class="action-section">
+                    <h3 class="action-heading">We found the document <span class="highlight">Alex</span> needs.</h3>
+                    <p class="action-subheading">You can share access <span class="highlight">now</span>, or come back to this <span class="highlight">later</span>.</p>
+                    
+                    <div class="document-found">
+                        <p class="doc-name">Latest Timesheet – March 2024</p>
+                        <p class="doc-location">Located in: Payroll → Timesheets (<span class="source-link">Google Drive</span>) 
+                            <img src="Icons/google_drive.png" alt="Drive" width="16" height="16" class="inline-icon">
+                        </p>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="shareAccess()">
+                            <span class="btn-text">Share access</span>
+                            <span class="btn-spinner hidden"></span>
+                        </button>
+                        <button class="btn btn-secondary">Remind me later</button>
+                        <a href="#" class="link-btn">Open in email</a>
+                    </div>
+                    <p class="action-note">Alex will be notified automatically.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 3: Dashboard with Toast -->
+    <div id="screen-3" class="screen">
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="title">Morning Melissa</h1>
+                    <p class="subtitle"><strong>5 actions</strong> need your attention today</p>
+                    <p class="subtext">Prioritised by urgency, due time, and required action</p>
+                </div>
+                <div class="header-right">
+                    <div class="app-icons">
+                        <div class="app-icon-btn active" title="Inbox">
+                            <img src="Icons/inbox.png" alt="Inbox" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Gmail">
+                            <img src="Icons/gmail.png" alt="Gmail" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Slack">
+                            <img src="Icons/slack.png" alt="Slack" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Google Drive">
+                            <img src="Icons/google_drive.png" alt="Google Drive" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Google Calendar">
+                            <img src="Icons/google_calendar.png" alt="Google Calendar" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Notion">
+                            <img src="Icons/Notion.png" alt="Notion" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Xero">
+                            <img src="Icons/Xero.png" alt="Xero" width="32" height="32">
+                        </div>
+                        <div class="app-icon-btn" title="Add connection">
+                            <img src="Icons/plus.png" alt="Add" width="32" height="32">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Task List (5 items) -->
+            <div class="task-list">
+                <div class="task-item high" style="--stagger-delay: 0;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">12:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Approve supplier invoice</h3>
+                        <p class="task-source">From <span class="source-link">Finance Team</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/Xero.png" alt="Xero" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item medium" style="--stagger-delay: 1;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">1:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Confirm meeting room booking</h3>
+                        <p class="task-source">From <span class="source-link">Sarah (HR)</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/google_calendar.png" alt="Google Calendar" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item low" style="--stagger-delay: 2;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">2:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Review draft onboarding document</h3>
+                        <p class="task-source">From <span class="source-link">People Ops</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/google_drive.png" alt="Google Drive" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item lower" style="--stagger-delay: 3;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">3:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Reply to IT access request</h3>
+                        <p class="task-source">From <span class="source-link">Sam (IT)</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/slack.png" alt="Slack" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="task-item lowest" style="--stagger-delay: 4;">
+                    <div class="task-left">
+                        <div class="due-time">
+                            <span class="due-label">Due by:</span>
+                            <span class="due-value">5:00pm</span>
+                        </div>
+                    </div>
+                    <div class="task-content">
+                        <h3 class="task-title">Update project roadmap</h3>
+                        <p class="task-source">From <span class="source-link">Product Team</span></p>
+                    </div>
+                    <div class="task-app-icon">
+                        <img src="Icons/Notion.png" alt="Notion" width="24" height="24">
+                    </div>
+                    <div class="task-chevron">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">
+            <div class="toast-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#22C55E" stroke-width="2"/>
+                    <path d="M8 12l3 3 5-6" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="toast-content">
+                <p class="toast-title">Access shared</p>
+                <p class="toast-message"><span class="highlight">Alex</span> can now view Latest Timesheet — March 2024</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
