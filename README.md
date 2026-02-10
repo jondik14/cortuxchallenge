@@ -79,9 +79,20 @@ Each shows:
 ### Completion Flow
 - Click primary action button (e.g., "Approve invoice")
 - Loading state for 600ms with spinner
-- Navigate to **Screen 3** (5 tasks remaining)
+- Returns to **Dashboard** with completion animation:
+  1. Task row turns green with white tick overlay (600ms)
+  2. Task fades out and slides upward (800ms)
+  3. Task removed from list, counts update
 - **Success toast** slides in with task-specific message
 - Toast auto-dismisses after 4 seconds
+
+### Completion Animation
+When a task is completed:
+- Green background highlights the task
+- White tick/checkmark appears in center
+- Task fades and slides up
+- Header count updates (e.g., "6 actions" → "5 actions")
+- Filter button for that app grays out
 
 ## Keyboard Shortcuts
 

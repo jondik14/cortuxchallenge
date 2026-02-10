@@ -175,7 +175,7 @@ function filterTasks(filter) {
 }
 
 /**
- * Complete a task action with loading state
+ * Complete a task action with loading state and completion animation
  */
 function completeTask(taskType) {
     const detailScreen = document.getElementById(`detail-${taskType}`);
@@ -200,16 +200,13 @@ function completeTask(taskType) {
         // Mark task as completed
         completedTasks.push(taskType);
         
-        // Navigate to screen 3 (completed state)
-        showScreen('screen-3');
+        // Navigate back to dashboard (screen-1)
+        showScreen('screen-1');
         
-        // Update filter counts on screen 3 (remove gmail)
-        updateFilterCounts();
-        
-        // Show toast with appropriate message
+        // After screen transition, animate the task completion
         setTimeout(() => {
-            showTaskToast(taskType);
-        }, 150);
+            animateTaskCompletion(taskType);
+        }, 300);
         
         // Reset button state for next time (delayed)
         setTimeout(() => {
@@ -218,6 +215,93 @@ function completeTask(taskType) {
             btnSpinner.classList.add('hidden');
         }, 500);
     }, 600);
+}
+
+/**
+ * Animate task completion on dashboard
+ * Shows tick, then fades task away upward
+ */
+function animateTaskCompletion(taskType) {
+    // Find the task in screen-1
+    const taskList = document.querySelector('#screen-1 .task-list');
+    const task = taskList.querySelector(`.task-item[data-app="${taskType}"]`);
+    
+    if (!task) return;
+    
+    // Create completion overlay with tick
+    const overlay = document.createElement('div');
+    overlay.className = 'task-completion-overlay';
+    overlay.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    `;
+    task.appendChild(overlay);
+    
+    // Add completing class (green background)
+    task.classList.add('completing');
+    
+    // Trigger reflow to ensure animation plays
+    void task.offsetHeight;
+    
+    // Wait for tick to show, then fade out
+    setTimeout(() => {
+        // Add exit animation class
+        task.classList.add('complete-exit');
+        task.classList.remove('completing');
+        
+        // Remove task from DOM after animation
+        setTimeout(() => {
+            // Get remaining count before removal
+            const remainingBefore = document.querySelectorAll('#screen-1 .task-item').length;
+            
+            task.remove();
+            
+            // Update UI with new count (remainingBefore - 1)
+            const newCount = remainingBefore - 1;
+            updateTaskCountImmediate(newCount);
+            
+            // Update filter counts
+            updateFilterCountsAfterCompletion(taskType);
+            
+            // Show toast
+            showTaskToast(taskType);
+            
+        }, 800); // Match CSS animation duration
+    }, 600); // Show tick for 600ms before fading
+}
+
+/**
+ * Update the task count in header immediately with a specific number
+ */
+function updateTaskCountImmediate(count) {
+    const subtitle = document.querySelector('#screen-1 .subtitle');
+    if (subtitle) {
+        const newCount = Math.max(0, count);
+        subtitle.innerHTML = `<strong>${newCount} action${newCount !== 1 ? 's' : ''}</strong> need your attention today`;
+    }
+}
+
+/**
+ * Update filter counts after task completion on dashboard
+ */
+function updateFilterCountsAfterCompletion(taskType) {
+    // Update "All" count
+    const allFilterBtn = document.querySelector('#screen-1 .filter-btn[data-filter="all"]');
+    if (allFilterBtn) {
+        const count = allFilterBtn.querySelector('.filter-count');
+        const remainingTasks = document.querySelectorAll('#screen-1 .task-item').length;
+        if (count) count.textContent = remainingTasks;
+    }
+    
+    // Update specific app count to 0 or hide
+    const appFilterBtn = document.querySelector(`#screen-1 .filter-btn[data-filter="${taskType}"]`);
+    if (appFilterBtn) {
+        const count = appFilterBtn.querySelector('.filter-count');
+        if (count) count.textContent = '0';
+        appFilterBtn.style.opacity = '0.5';
+        appFilterBtn.style.pointerEvents = 'none';
+    }
 }
 
 /**
@@ -236,21 +320,12 @@ function getLoadingText(taskType) {
 }
 
 /**
- * Update filter counts after task completion
+ * Legacy: Update filter counts (kept for compatibility)
+ * Main logic now in updateFilterCountsAfterCompletion
  */
 function updateFilterCounts() {
-    // On screen 3, gmail count is 0 (task completed)
-    const gmailFilterBtn = document.querySelector('#screen-3 .filter-btn[data-filter="gmail"]');
-    if (gmailFilterBtn) {
-        gmailFilterBtn.style.display = 'none';
-    }
-    
-    // Update "All" count
-    const allFilterBtn = document.querySelector('#screen-3 .filter-btn[data-filter="all"]');
-    if (allFilterBtn) {
-        const count = allFilterBtn.querySelector('.filter-count');
-        if (count) count.textContent = '5';
-    }
+    // This function is kept for compatibility
+    // Main filter update logic is now in updateFilterCountsAfterCompletion
 }
 
 /**
